@@ -7,9 +7,9 @@
             "args": [
                 "-std=c++17",
                 "curve/curve_lib.cpp",
-                "main.cpp",
+                "main/main.cpp",
                 "-o",
-                "${workspaceFolder}/out/curve"
+                "${workspaceFolder}/out/main"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"

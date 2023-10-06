@@ -1,4 +1,4 @@
-#include "curve/curve_lib.h"
+#include "../curve/curve_lib.h"
 #include <random>
 
 int main() {

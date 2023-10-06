@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(EXECUTABLE_NAME main)
 
 # Добавляем исполняемый файл с указанным именем
-add_executable(${EXECUTABLE_NAME} main.cpp)
+add_executable(${EXECUTABLE_NAME} main/main.cpp)
 
 # Устанавливаем папку вывода для исполняемого файла
 set_target_properties(${EXECUTABLE_NAME} PROPERTIES
