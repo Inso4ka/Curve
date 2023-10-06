@@ -32,20 +32,23 @@ class CURVESLIBRARY_EXPORT Curve
     virtual double getDX(double t) const = 0;
     virtual double getDY(double t) const = 0;
     virtual double getDZ(double t) const = 0;
+
+    virtual const std::string& info() const = 0;
 };
 
 class CURVESLIBRARY_EXPORT Circle : public Curve
 {
   public:
     explicit Circle(double radius);
-    double radius() const override;
-    double step() const override;
-    double getX(double t) const override;
-    double getY(double t) const override;
-    double getZ(double t) const override;
-    double getDX(double t) const override;
-    double getDY(double t) const override;
-    double getDZ(double t) const override;
+    double             radius() const override;
+    double             step() const override;
+    double             getX(double t) const override;
+    double             getY(double t) const override;
+    double             getZ(double t) const override;
+    double             getDX(double t) const override;
+    double             getDY(double t) const override;
+    double             getDZ(double t) const override;
+    const std::string& info() const override;
 
   private:
     double m_radius;
@@ -55,14 +58,15 @@ class CURVESLIBRARY_EXPORT Ellipse : public Curve
 {
   public:
     explicit Ellipse(double radiusX, double radiusY);
-    double radius() const override;
-    double step() const override;
-    double getX(double t) const override;
-    double getY(double t) const override;
-    double getZ(double t) const override;
-    double getDX(double t) const override;
-    double getDY(double t) const override;
-    double getDZ(double t) const override;
+    double             radius() const override;
+    double             step() const override;
+    double             getX(double t) const override;
+    double             getY(double t) const override;
+    double             getZ(double t) const override;
+    double             getDX(double t) const override;
+    double             getDY(double t) const override;
+    double             getDZ(double t) const override;
+    const std::string& info() const override;
 
   private:
     double m_radiusX;
@@ -73,14 +77,15 @@ class CURVESLIBRARY_EXPORT Helix : public Curve
 {
   public:
     explicit Helix(double radius, double step);
-    double radius() const override;
-    double step() const override;
-    double getX(double t) const override;
-    double getY(double t) const override;
-    double getZ(double t) const override;
-    double getDX(double t) const override;
-    double getDY(double t) const override;
-    double getDZ(double t) const override;
+    double             radius() const override;
+    double             step() const override;
+    double             getX(double t) const override;
+    double             getY(double t) const override;
+    double             getZ(double t) const override;
+    double             getDX(double t) const override;
+    double             getDY(double t) const override;
+    double             getDZ(double t) const override;
+    const std::string& info() const override;
 
   private:
     double m_radius;

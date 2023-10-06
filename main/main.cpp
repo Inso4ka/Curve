@@ -14,6 +14,7 @@ int main() {
 
     double t = M_PI / 4.0;
     for (const auto& curve : curves) {
+        std::cout << curve->info() << std::endl;
         std::cout << "Coordinates for curve with radius " << curve->radius() << " at t=PI/4:" << std::endl;
         std::cout << "Point: (" << curve->getX(t) << ", " << curve->getY(t) << ", " << curve->getZ(t) << ")" << std::endl;
         std::cout << "Derivative: (" << curve->getDX(t) << ", " << curve->getDY(t) << ", " << curve->getDZ(t) << ")" << std::endl;

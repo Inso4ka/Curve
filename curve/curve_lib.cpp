@@ -31,6 +31,11 @@ double Circle::getDZ(double t) const {
     return 0;
 }
 
+const std::string& Circle::info() const {
+    static const std::string circleInfo = "Circle";
+    return circleInfo;
+}
+
 Ellipse::Ellipse(double radiusX, double radiusY) : m_radiusX(radiusX), m_radiusY(radiusY) {
     if (radiusX <= 0 || radiusY <= 0) {
         throw std::invalid_argument("Radius must be positive");
@@ -61,6 +66,11 @@ double Ellipse::getDZ(double t) const {
     return 0;
 }
 
+const std::string& Ellipse::info() const {
+    static const std::string ellipseInfo = "Ellipse";
+    return ellipseInfo;
+}
+
 Helix::Helix(double radius, double step) : m_radius(radius), m_step(step) {
     if (radius <= 0 || step <= 0) {
         throw std::invalid_argument("Radius and step must be positive");
@@ -89,6 +99,11 @@ double Helix::getDY(double t) const {
 }
 double Helix::getDZ(double t) const {
     return m_step / (2 * M_PI);
+}
+
+const std::string& Helix::info() const {
+    static const std::string helixInfo = "Helix";
+    return helixInfo;
 }
 
 Curve* createCircle(double radius) {
