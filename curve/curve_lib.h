@@ -2,22 +2,13 @@
 #ifndef CURVESLIBRARY_H
 #define CURVESLIBRARY_H
 
-#ifdef _WIN32
-#ifdef CURVESLIBRARY_EXPORTS
-#define CURVESLIBRARY_EXPORT __declspec(dllexport)
-#else
-#define CURVESLIBRARY_EXPORT __declspec(dllimport)
-#endif
-#else
-#define CURVESLIBRARY_EXPORT __attribute__((visibility("default")))
-#endif
-
 #include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <vector>
+#define M_PI 3.14159265358979323846264338327950288
 
-class CURVESLIBRARY_EXPORT Curve
+class Curve
 {
   public:
     virtual ~Curve() { }
@@ -36,7 +27,7 @@ class CURVESLIBRARY_EXPORT Curve
     virtual const std::string& info() const = 0;
 };
 
-class CURVESLIBRARY_EXPORT Circle : public Curve
+class Circle : public Curve
 {
   public:
     explicit Circle(double radius);
@@ -54,7 +45,7 @@ class CURVESLIBRARY_EXPORT Circle : public Curve
     double m_radius;
 };
 
-class CURVESLIBRARY_EXPORT Ellipse : public Curve
+class Ellipse : public Curve
 {
   public:
     explicit Ellipse(double radiusX, double radiusY);
@@ -73,7 +64,7 @@ class CURVESLIBRARY_EXPORT Ellipse : public Curve
     double m_radiusY;
 };
 
-class CURVESLIBRARY_EXPORT Helix : public Curve
+class Helix : public Curve
 {
   public:
     explicit Helix(double radius, double step);
@@ -92,8 +83,8 @@ class CURVESLIBRARY_EXPORT Helix : public Curve
     double m_step;
 };
 
-extern "C" CURVESLIBRARY_EXPORT Curve* createCircle(double radius);
-extern "C" CURVESLIBRARY_EXPORT Curve* createEllipse(double radiusX, double radiusY);
-extern "C" CURVESLIBRARY_EXPORT Curve* createHelix(double radius, double step);
+Curve* createCircle(double radius);
+Curve* createEllipse(double radiusX, double radiusY);
+Curve* createHelix(double radius, double step);
 
 #endif
