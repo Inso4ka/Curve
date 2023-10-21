@@ -1,2 +1,2 @@
-# Curve
+# IonoModel
 Выполнено на ОС MacOS.
