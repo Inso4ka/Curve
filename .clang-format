@@ -36,4 +36,4 @@ BraceWrapping:
  AfterStruct: true
  AfterUnion: true
  AfterControlStatement: Never
-SpaceInEmptyBlock: true
+SpaceInEmptyBlock: true 
