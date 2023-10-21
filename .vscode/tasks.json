@@ -6,8 +6,7 @@
             "command": "/usr/bin/clang++",
             "args": [
                 "-std=c++17",
-                "curve/curve_lib.cpp",
-                "main/main.cpp",
+                "main.cpp",
                 "-o",
                 "${workspaceFolder}/out/main"
             ],
