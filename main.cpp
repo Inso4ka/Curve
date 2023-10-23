@@ -1,4 +1,5 @@
 #include <array>
+#include <atomic>
 #include <cmath>
 #include <iostream>
 
@@ -20,8 +21,9 @@ class IonoModel
 class MyIonoModel : public IonoModel
 {
   private:
-    static std::array<double, 4> ALPHA;
-    static std::array<double, 4> BETA;
+    static std::atomic<std::array<double, 4>> ALPHA;
+    static std::atomic<std::array<double, 4>> BETA;
+    static bool                               isUpdating;
 
   public:
     MyIonoModel() { }
@@ -50,9 +52,17 @@ class MyIonoModel : public IonoModel
         double F   = 1.0 + 16.0 * std::pow(0.53 - elv, 3.0);
         double PER = 0.0;
         double AMP = 0.0;
+
+        while (isUpdating) {
+            ;
+        }
+
+        std::array<double, 4UL> alpha = MyIonoModel::ALPHA.load();
+        std::array<double, 4UL> beta  = MyIonoModel::BETA.load();
+
         for (int i = 0; i < 4; i++) {
-            PER += BETA[i] * std::pow(phi_m, i);
-            AMP += ALPHA[i] * std::pow(phi_m, i);
+            PER += beta[i] * std::pow(phi_m, i);
+            AMP += alpha[i] * std::pow(phi_m, i);
         }
 
         if (PER < 72000) {
@@ -82,17 +92,17 @@ class MyIonoModel : public IonoModel
         return ionoDelay;
     }
 
-    static void updateAlphaCoefficients(const std::array<double, 4>& newCoefficients) {
-        ALPHA = newCoefficients;
-    }
-
-    static void updateBetaCoefficients(const std::array<double, 4>& newCoefficients) {
-        BETA = newCoefficients;
+    static void updateCoefficients(const std::array<double, 4>& newAlphaCoefficients, const std::array<double, 4>& newBetaCoefficients) {
+        isUpdating = true;
+        ALPHA      = newAlphaCoefficients;
+        BETA       = newBetaCoefficients;
+        isUpdating = false;
     }
 };
 
-std::array<double, 4> MyIonoModel::ALPHA = {1.490116119e-08, 2.235174179e-08, -1.192092896e-07, -1.192092896e-07};
-std::array<double, 4> MyIonoModel::BETA  = {1.167360000e+05, 1.802240000e+05, -1.310720000e+05, -4.587520000e+05};
+std::atomic<std::array<double, 4>> MyIonoModel::ALPHA      = {{1.490116119e-08, 2.235174179e-08, -1.192092896e-07, -1.192092896e-07}};
+std::atomic<std::array<double, 4>> MyIonoModel::BETA       = {{1.167360000e+05, 1.802240000e+05, -1.310720000e+05, -4.587520000e+05}};
+bool                               MyIonoModel::isUpdating = false;
 
 int main() {
     MyIonoModel ionoModel;
@@ -109,18 +119,11 @@ int main() {
     std::cout << ionoDelayL2 << "\n";
 
     std::array<double, 4> newAlpha = {12.0, 22.0, 31.0, 4.0};
-    ionoModel.updateAlphaCoefficients(newAlpha);
+    std::array<double, 4> newBeta  = {2.167360000e+05, 10.802240000e+05, -10.310720000e+05, -8.587520000e+05};
+    ionoModel.updateCoefficients(newAlpha, newBeta);
 
     double updatedIonoDelayL1 = ionoModel.getIonoDelay(gpstime, lat, lon, elv, azm, IonoModel::eIonoMode::iono_L1);
     double updatedIonoDelayL2 = ionoModel.getIonoDelay(gpstime, lat, lon, elv, azm, IonoModel::eIonoMode::iono_L2);
-    std::cout << updatedIonoDelayL1 << "\n";
-    std::cout << updatedIonoDelayL2 << "\n";
-
-    std::array<double, 4> newBeta = {2.167360000e+05, 10.802240000e+05, -10.310720000e+05, -8.587520000e+05};
-    MyIonoModel::updateBetaCoefficients(newBeta);
-
-    updatedIonoDelayL1 = ionoModel.getIonoDelay(gpstime, lat, lon, elv, azm, IonoModel::eIonoMode::iono_L1);
-    updatedIonoDelayL2 = ionoModel.getIonoDelay(gpstime, lat, lon, elv, azm, IonoModel::eIonoMode::iono_L2);
     std::cout << updatedIonoDelayL1 << "\n";
     std::cout << updatedIonoDelayL2 << "\n";
 
